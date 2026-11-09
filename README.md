@@ -92,6 +92,41 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 ```
 
+If API key is already available in  Python environment variable , you can use the key in your code but cannot see the exact value because it's hidden for security purposes.
+Because OPENAI_API_KEY is stored as an environment variable, you'll need to use the os Python library to access it:
+```
+import os
+
+api_key = os.environ.get("OPENAI_API_KEY")
+```
+The python-dotenv library makes it easy to work with environment variables. Simply save your API key in a .env file, and it will be loaded automatically when your application runs.
+```
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
+
+# Load the .env file ,reads the .env file in your application's root directory and loads the variables into your environment
+load_dotenv()
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+```
+By default, load_dotenv() looks for a .env file in your project's root directory. If your .env file is located in a different folder, be sure to provide the file path when invoking load_dotenv().
+
+Keep your .env file private, as it may contain API keys, passwords, and other sensitive configuration values. To avoid accidentally sharing these secrets, add .env to your .gitignore file. Instead, include an example.env file with placeholder values to demonstrate the required environment variables and help others set up their own configuration.
+
+
+
+If you'd like to use your own OpenAI API key, first register on the [OpenAI Developer Platform](https://platform.openai.com/). Once your account is set up, you can generate an API key from the dashboard.
+
+ > Keep your API key secure and never share it publicly. Since it is tied to your account, anyone with access to the key can use the OpenAI API as you, which may consume your usage limits and result in unexpected costs.
+
+```
+from openai import OpenAI
+
+api_key = "Your API Key"
+client = OpenAI(api_key=api_key)
+```
+
 > ⚠️ Never commit API keys to GitHub.
 
 ---
@@ -121,7 +156,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv() # 
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
